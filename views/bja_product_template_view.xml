@@ -1,0 +1,130 @@
+<openerp>
+	<data>
+		
+		<!-- Action View -->
+		<record id="bja_product_template_action" model="ir.actions.act_window">
+	        <field name="name">Products</field>
+	        <field name="type">ir.actions.act_window</field>
+	        <field name="res_model">product.template</field>
+	        <field name="view_mode">tree,form</field>
+	        <field name="view_type">form</field>
+	        <!-- <field name="view_id" ref="product_template_kanban_view"/> -->
+	        <field name="context">{"default_categ_id":"","default_type":"product","default_purchase_method":"purchase"}</field>
+	        <field name="search_view_id" ref="bja_product_template_search_view"/>
+	    </record>
+
+	    <!-- Form View -->
+	    <record id="bja_product_template_only_form_view" model="ir.ui.view">
+	        <field name="name">bja.product.template.product.form</field>
+	        <field name="model">product.template</field>
+	        <field name="mode">primary</field>
+	        <field name="priority" eval="20" />
+	        <field name="inherit_id" ref="product.product_template_form_view"/>
+	        <field name="arch" type="xml">
+	        	<field name="sale_ok" position="attributes">
+	        		<attribute name="invisible">1</attribute>
+	        	</field>
+	        	<label for="sale_ok" position="attributes">
+	        		<attribute name="invisible">1</attribute>
+	        	</label>
+	        	<field name="purchase_ok" position="attributes">
+	        		<attribute name="invisible">1</attribute>
+	        	</field>
+	        	<label for="purchase_ok" position="attributes">
+	        		<attribute name="invisible">1</attribute>
+	        	</label>
+	            <xpath expr="//form" position="attributes">
+	                <attribute name="name">Product Template</attribute>
+	            </xpath>
+	            <field name="type" position="after">
+	                <field name="default_code" invisible="1" attrs="{'invisible': [('product_variant_count', '>', 1)]}"/>
+	                <field name="barcode" invisible="1" attrs="{'invisible': [('product_variant_count', '>', 1)]}"/>
+	            </field>
+
+	            <div name="button_box" position="inside">
+	                <button name="%(product.product_variant_action)d" type="action"
+	                    icon="fa-sitemap" class="oe_stat_button"
+	                    attrs="{'invisible': [('product_variant_count', '&lt;=', 1)]}"
+	                    groups="product.group_product_variant">
+	                    <field string="Variants" name="product_variant_count" widget="statinfo" />
+	                </button>
+	            </div>
+
+	            <xpath expr="//page[@name='sales']" position="after">
+	                <page name="variants" invisible="1" string="Variants" groups="product.group_product_variant">
+	                    <field name="attribute_line_ids" widget="one2many_list" context="{'show_attribute': False}">
+	                        <tree string="Variants" editable="bottom">
+	                            <field name="attribute_id"/>
+	                            <field name="value_ids" widget="many2many_tags" options="{'no_create_edit': True}" domain="[('attribute_id', '=', attribute_id)]" context="{'default_attribute_id': attribute_id}"/>
+	                        </tree>
+	                    </field>
+	                        <p class="oe_grey">
+	                        <strong>Warning</strong>: adding or deleting attributes
+	                        will delete and recreate existing variants and lead
+	                        to the loss of their possible customizations.
+	                    </p>
+	                </page>
+	            </xpath>
+	            <xpath expr="//page[@name='sales']" position="attributes">
+	            	<attribute name="invisible">1</attribute>
+	            </xpath>
+	            <xpath expr="//page[@name='notes']" position="attributes">
+	            	<attribute name="invisible">1</attribute>
+	            </xpath>
+	            <field name="purchase_method" position="attributes">
+	            	<attribute name="invisible">1</attribute>
+	            </field>
+	            <field name="type" position="attributes">
+	            	<attribute name="invisible">1</attribute>
+	            </field>
+	            <field name="categ_id" position="attributes">
+	            	<attribute name="options">{'no_create_edit': True, 'no_open': True}</attribute>
+	            </field>
+	            <xpath expr="//form/sheet/notebook/page[2]" position="attributes">
+	            	<attribute name="invisible">1</attribute>
+	            </xpath>
+	            <field name="weight" position="replace"/>
+	            <field name="categ_id" position="after">
+	            	<field name="weight" />
+	            </field>
+	            <page name="invoicing" position="attributes">
+	            	<attribute name="invisible">1</attribute>
+	            </page>
+	        </field>
+	    </record>
+
+	    <!-- Tree View -->
+	    <record id="bja_product_template_tree_view" model="ir.ui.view">
+	        <field name="name">bja.product.template.product.tree</field>
+	        <field name="model">product.template</field>
+	        <field name="priority" eval="20" />
+	        <field name="arch" type="xml">
+	            <tree string="Product">
+	                <field name="default_code" invisible="1" />
+	                <field name="name"/>
+	                <field name="categ_id"/>
+	                <field name="weight"/>
+	                <field name="list_price"/>
+	                <field name="standard_price"/>
+                    <field name="qty_available"/>
+	                <field name="uom_id" options="{'no_open': True, 'no_create': True}" groups="product.group_uom" invisible="1" />
+	                <field name="active" invisible="1"/>
+	            </tree>
+	        </field>
+	    </record>
+
+	    <!-- Custom Form & Tree View -->
+	    <record model="ir.actions.act_window.view" id="bja_product_template_action_tree">
+	      <field name="view_mode">tree</field>
+	      <field name="view_id" ref="bja_product_template_tree_view"/>
+	      <field name="act_window_id" ref="bja_product_template_action"/>
+	    </record>
+
+	    <record model="ir.actions.act_window.view" id="bja_product_template_action_form">
+	      <field name="view_mode">form</field>
+	      <field name="view_id" ref="bja_product_template_only_form_view"/>
+	      <field name="act_window_id" ref="bja_product_template_action"/>
+	    </record>
+
+	</data>
+</openerp>

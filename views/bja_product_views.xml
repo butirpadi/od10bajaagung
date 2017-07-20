@@ -1,0 +1,101 @@
+<openerp>
+	<data>
+		
+		<!-- Search View -->
+		<record id="bja_product_template_search_view" model="ir.ui.view">
+	        <field name="name">bja.product.template.search</field>
+	        <field name="model">product.template</field>
+	        <field name="priority" eval="20" />
+	        <field name="arch" type="xml">
+	            <search string="Product">
+	                <field name="name" string="Product" filter_domain="['|','|',('default_code','ilike',self),('name','ilike',self),('barcode','ilike',self)]"/>
+	                <!-- <field name="categ_id" domain="[('categ_id', 'child_of', self)]"/>
+	                <separator/>
+	                <filter string="Services" name="services" domain="[('type','=','service')]"/>
+	                <filter string="Products" name="consumable" domain="[('type', 'in', ['consu', 'product'])]" help="Products your store in the inventory"/>
+	                <separator/>
+	                <filter string="Can be Sold" name="filter_to_sell" domain="[('sale_ok','=',1)]"/>
+	                <filter string="Can be Purchased" name="filter_to_purchase" domain="[('purchase_ok', '=', 1)]"/>
+	                <separator/>
+	                <filter string="Archived" name="inactive" domain="[('active','=',False)]"/>
+	                <field string="Attributes" name="attribute_line_ids" groups="product.group_product_variant"/>
+	                <field name="pricelist_id" widget="selection" context="{'pricelist': self}" filter_domain="[]" groups="product.group_sale_pricelist"/>  -->
+	            </search>
+	        </field>
+	    </record>
+
+	    <!-- Prodcut Category Tree View -->
+	    <record id="bja_product_category_list_view" model="ir.ui.view">
+            <field name="name">bja.product.category.list</field>
+            <field name="model">product.category</field>
+            <field name="priority" eval="20" />
+            <field name="arch" type="xml">
+                <tree string="Product Categories">
+                    <field name="display_name"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Product Category Action View -->
+        <record id="bja_product_category_action_form" model="ir.actions.act_window">
+            <field name="name">Product Categories</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.category</field>
+            <field name="view_type">form</field>
+            <!-- <field name="search_view_id" ref="product_category_search_view"/> -->
+            <!-- <field name="view_id" ref="bja_product_category_list_view"/> -->
+        </record>
+
+        <!-- Product Category Form View -->
+        <record id="bja_product_category_form_view" model="ir.ui.view">
+            <field name="name">product.category.form</field>
+            <field name="model">product.category</field>
+            <field name="priority" eval="20" />
+            <field name="arch" type="xml">
+                <form class="oe_form_configuration">
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button class="oe_stat_button"
+                                name="%(product.product_template_action_all)d"
+                                icon="fa-th-list"
+                                type="action"
+                                context="{'search_default_categ_id': active_id}">
+                                <div class="o_form_field o_stat_info">
+                                    <span class="o_stat_value"><field name="product_count"/></span>
+                                    <span class="o_stat_text"> Products</span>
+                                </div>
+                            </button>
+                        </div>
+                        <!-- <div class="oe_title">
+                            <label for="name" string="Category name" class="oe_edit_only"/>
+                            <h1><field name="name" placeholder="e.g. Lamps"/></h1>
+                        </div> -->
+                        <group>
+                        	<!-- <label for="name" string="Category name" class="oe_edit_only"/> -->
+                            <field name="name" placeholder="e.g. Lamps"/>
+                        </group>
+                        <group name="first" col="4" string="Category Type" invisible="1">
+                            <field name="parent_id"/>
+                            <field name="type"/>
+                            <field name="property_valuation"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+         <!-- Custom Product Category Form & Tree View -->
+	    <record model="ir.actions.act_window.view" id="bja_product_category_action_form_tree">
+	      <field name="view_mode">tree</field>
+	      <field name="view_id" ref="bja_product_category_list_view"/>
+	      <field name="act_window_id" ref="bja_product_category_action_form"/>
+	    </record>
+
+	    <record model="ir.actions.act_window.view" id="bja_product_category_action_form_form">
+	      <field name="view_mode">form</field>
+	      <field name="view_id" ref="bja_product_category_form_view"/>
+	      <field name="act_window_id" ref="bja_product_category_action_form"/>
+	    </record>
+
+	</data>
+</openerp>
