@@ -24,12 +24,16 @@
     # always loaded
     'data': [
         # 'security/ir.model.access.csv',
-        'views/bja_sale_view.xml',
-        'views/bja_partner_view.xml',
+        # 'views/bja_sale_view.xml',
+        # 'views/bja_partner_view.xml',
         'views/bja_salesperson_view.xml',
-        'views/bja_product_views.xml',
-        'views/bja_product_template_view.xml',
-        'views/menu.xml',
+        # 'views/bja_product_views.xml',
+        # 'views/bja_product_template_view.xml',
+        'views/bja_purchase_view.xml',
+        # new edit for all
+        'views/bja_res_partner_view.xml',
+        'views/bja_product_template_only_form_view.xml',
+        # 'views/menu.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

@@ -6,7 +6,7 @@
 	        <field name="name">Products</field>
 	        <field name="type">ir.actions.act_window</field>
 	        <field name="res_model">product.template</field>
-	        <field name="view_mode">tree,form</field>
+	        <field name="view_mode">kanban,tree,form</field>
 	        <field name="view_type">form</field>
 	        <!-- <field name="view_id" ref="product_template_kanban_view"/> -->
 	        <field name="context">{"default_categ_id":"","default_type":"product","default_purchase_method":"purchase"}</field>
@@ -87,9 +87,13 @@
 	            <field name="categ_id" position="after">
 	            	<field name="weight" />
 	            </field>
+	            <field name="list_price" position="after">
+	            	<field name="cost_per_weight" />
+	            </field>
 	            <page name="invoicing" position="attributes">
 	            	<attribute name="invisible">1</attribute>
 	            </page>
+	            
 	        </field>
 	    </record>
 
@@ -106,6 +110,7 @@
 	                <field name="weight"/>
 	                <field name="list_price"/>
 	                <field name="standard_price"/>
+	                <field name="cost_per_weight"/>
                     <field name="qty_available"/>
 	                <field name="uom_id" options="{'no_open': True, 'no_create': True}" groups="product.group_uom" invisible="1" />
 	                <field name="active" invisible="1"/>
